@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Tags -->
+  <title>BrainSprint - Interactive Quiz Application</title>
+  <meta name="description" content="Test your knowledge with BrainSprint, a premium interactive quiz application. Dynamic categories, smart state tracking, light/dark themes, retro synth sound effects, and full keyboard navigation.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Animated Background Gradients -->
+  <div class="bg-gradient-orb bg-orb-1"></div>
+  <div class="bg-gradient-orb bg-orb-2"></div>
+  <div class="bg-gradient-orb bg-orb-3"></div>
+
+  <!-- Global Application Shell -->
+  <div class="app-container">
+    
+    <!-- HEADER BAR -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="logo-text">
+          <h1>Brain<span>Sprint</span></h1>
+          <span class="tagline">Interactive Logic Quiz</span>
+        </div>
+      </div>
+      
+      <!-- Quick Control Actions -->
+      <div class="header-controls">
+        <button id="kbd-btn" class="ctrl-btn" title="Keyboard Shortcuts" aria-label="Keyboard Shortcuts">
+          <i class="fa-solid fa-keyboard"></i>
+        </button>
+        <button id="sound-btn" class="ctrl-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button id="theme-btn" class="ctrl-btn" title="Toggle Theme" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      
+      <!-- ================= START SCREEN ================= -->
+      <section id="start-screen" class="quiz-card active">
+        <div class="hero-section">
+          <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Ready to Sprint?</div>
+          <h2>Challenge Your Intellect</h2>
+          <p>Choose your configurations below, filter by category or difficulty, and sprint through our logic-based quiz. Earn hot streaks, climb high scores, and master the leaderboards!</p>
+        </div>
+
+        <!-- CONFIGURATION PANEL -->
+        <div class="config-grid">
+          <!-- Category Selector -->
+          <div class="config-box">
+            <label for="category-select"><i class="fa-solid fa-list"></i> Select Category</label>
+            <div class="custom-select-wrapper">
+              <select id="category-select">
+                <option value="all">All Categories</option>
+                <option value="tech">Technology & Coding</option>
+                <option value="science">Science & Nature</option>
+                <option value="geography">Geography</option>
+                <option value="history">History</option>
+                <option value="general">General Knowledge</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Difficulty Cards -->
+          <div class="config-box full-width">
+            <label><i class="fa-solid fa-gauge-high"></i> Choose Difficulty</label>
+            <div class="difficulty-options">
+              <label class="diff-card active">
+                <input type="radio" name="difficulty" value="all" checked hidden>
+                <span class="diff-title">All</span>
+                <span class="diff-desc">Complete Mix</span>
+              </label>
+              <label class="diff-card">
+                <input type="radio" name="difficulty" value="easy" hidden>
+                <span class="diff-title easy">Easy</span>
+                <span class="diff-desc">Warm-up round</span>
+              </label>
+              <label class="diff-card">
+                <input type="radio" name="difficulty" value="medium" hidden>
+                <span class="diff-title medium">Medium</span>
+                <span class="diff-desc">Mental workout</span>
+              </label>
+              <label class="diff-card">
+                <input type="radio" name="difficulty" value="hard" hidden>
+                <span class="diff-title hard">Hard</span>
+                <span class="diff-desc">Master tier</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Game Options -->
+          <div class="config-box full-width game-options-box">
+            <label><i class="fa-solid fa-sliders"></i> Game Parameters</label>
+            <div class="toggle-options">
+              <label class="toggle-container">
+                <span class="toggle-label">Shuffle Questions</span>
+                <input type="checkbox" id="shuffle-q-toggle" checked>
+                <span class="slider"></span>
+              </label>
+              <label class="toggle-container">
+                <span class="toggle-label">Shuffle Options</span>
+                <input type="checkbox" id="shuffle-o-toggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="action-area">
+          <button id="start-btn" class="btn primary-btn btn-lg">
+            <span>Start Quiz</span> <i class="fa-solid fa-play"></i>
+          </button>
+        </div>
+
+        <!-- STATS & LEADERBOARD ACCORDION -->
+        <div class="dashboard-accordion">
+          <div class="accordion-header" id="dashboard-toggle">
+            <h3><i class="fa-solid fa-chart-line"></i> Dashboard & High Scores</h3>
+            <i class="fa-solid fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="accordion-content" id="dashboard-content">
+            <div class="dashboard-grid">
+              <div class="dash-panel">
+                <h4><i class="fa-solid fa-trophy text-gold"></i> Top Scores</h4>
+                <ol id="high-scores-list" class="stats-list">
+                  <li class="empty-msg">No high scores registered yet!</li>
+                </ol>
+              </div>
+              <div class="dash-panel">
+                <h4><i class="fa-solid fa-history text-accent"></i> Recent Activity</h4>
+                <ul id="history-list" class="stats-list">
+                  <li class="empty-msg">No recent activity. Start playing to build a history!</li>
+                </ul>
+                <button id="clear-stats-btn" class="btn btn-sm btn-outline danger" style="display: none;">
+                  <i class="fa-solid fa-trash-can"></i> Clear Dashboard Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= QUIZ SCREEN ================= -->
+      <section id="quiz-screen" class="quiz-card">
+        <!-- Live Status Bar -->
+        <div class="quiz-status-bar">
+          <div class="status-left">
+            <div class="status-badge" id="category-badge">Science</div>
+            <div class="status-badge" id="difficulty-badge">Medium</div>
+          </div>
+          
+          <div class="status-center">
+            <div class="streak-indicator" id="streak-wrapper" style="opacity: 0;">
+              <i class="fa-solid fa-fire animate-pulse text-streak"></i> Streak: <span id="streak-count">0</span>
+            </div>
+          </div>
+
+          <div class="status-right">
+            <div class="score-display">
+              Score: <span id="live-score">00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Tracking -->
+        <div class="progress-section">
+          <div class="progress-info">
+            <span class="q-counter">Question <strong id="current-q-num">1</strong> of <span id="total-q-num">10</span></span>
+            <span class="pct-complete" id="pct-complete-txt">10% Complete</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-fill" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- Question Panel -->
+        <div class="question-container">
+          <!-- Countdown Timer Area -->
+          <div class="timer-wrapper">
+            <div class="timer-icon-box">
+              <i class="fa-regular fa-clock" id="timer-clock"></i>
+              <span id="timer-text">15</span>
+            </div>
+            <div class="timer-bar-track">
+              <div class="timer-bar-fill" id="timer-bar-fill"></div>
+            </div>
+          </div>
+
+          <h3 id="question-text">Loading question text...</h3>
+        </div>
+
+        <!-- Options Panel -->
+        <div class="options-grid" id="options-container" role="radiogroup" aria-label="Quiz Answer Choices">
+          <!-- Dynamic injected buttons here -->
+        </div>
+
+        <!-- Instant Feedback Overlay Card -->
+        <div class="feedback-card" id="feedback-card">
+          <div class="feedback-header">
+            <div class="feedback-status-icon" id="feedback-icon-wrapper">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <h4 id="feedback-status-text">Correct Answer!</h4>
+          </div>
+          <div class="feedback-body">
+            <p id="explanation-text">Explanation goes here...</p>
+          </div>
+        </div>
+
+        <!-- Actions Footer -->
+        <div class="quiz-footer">
+          <button id="quit-btn" class="btn danger-btn-outline" title="Quit current sprint">
+            <i class="fa-solid fa-door-open"></i> Quit
+          </button>
+          
+          <div class="right-actions">
+            <button id="skip-btn" class="btn btn-outline" title="Skip this question (no penalty, but no score)">
+              Skip <i class="fa-solid fa-forward-step"></i>
+            </button>
+            <button id="next-btn" class="btn primary-btn" disabled>
+              <span>Next</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= RESULT SCREEN ================= -->
+      <section id="result-screen" class="quiz-card">
+        <div class="results-header-panel">
+          <div class="trophy-wrapper">
+            <div class="trophy-pulse"></div>
+            <i class="fa-solid fa-trophy text-gold result-trophy-icon"></i>
+          </div>
+          <h2 id="result-greeting">Outstanding Sprint!</h2>
+          <div class="grade-badge" id="grade-badge">EXCELLENT</div>
+        </div>
+
+        <!-- Main Score Wheel -->
+        <div class="score-summary-wheel">
+          <svg class="score-svg" viewBox="0 0 200 200">
+            <circle class="score-circle-bg" cx="100" cy="100" r="85"></circle>
+            <circle class="score-circle-fill" id="score-circle-fill" cx="100" cy="100" r="85" stroke-dasharray="534" stroke-dashoffset="534"></circle>
+          </svg>
+          <div class="score-center-text">
+            <span class="result-score-pct" id="result-pct">90%</span>
+            <span class="result-score-fraction"><span id="result-correct">9</span> / <span id="result-total">10</span> Correct</span>
+          </div>
+        </div>
+
+        <!-- Statistics Panel -->
+        <div class="result-stats-section">
+          <h3>Sprint Metrics</h3>
+          <div class="stats-grid">
+            <div class="metric-card">
+              <span class="metric-val text-success" id="stat-correct">0</span>
+              <span class="metric-label">Correct</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val text-danger" id="stat-wrong">0</span>
+              <span class="metric-label">Incorrect</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val text-accent" id="stat-skipped">0</span>
+              <span class="metric-label">Skipped</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val text-gold" id="stat-points">0</span>
+              <span class="metric-label">Total Points</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val text-streak" id="stat-max-streak">0</span>
+              <span class="metric-label">Max Streak</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-val text-time" id="stat-avg-time">0s</span>
+              <span class="metric-label">Avg. Speed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- High Score Notification -->
+        <div class="new-highscore-badge" id="highscore-badge" style="display: none;">
+          <i class="fa-solid fa-star animate-pulse"></i> NEW PERSONAL BEST RECORD! <i class="fa-solid fa-star animate-pulse"></i>
+        </div>
+
+        <!-- Results Actions -->
+        <div class="results-actions">
+          <button id="retry-incorrect-btn" class="btn success-btn-outline" style="display: none;">
+            <i class="fa-solid fa-rotate-left"></i> Retry Incorrect Only
+          </button>
+          <button id="home-btn" class="btn btn-outline">
+            <i class="fa-solid fa-house"></i> Home Screen
+          </button>
+          <button id="restart-btn" class="btn primary-btn">
+            Play Again <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+
+        <!-- Review Showcase Section -->
+        <div class="results-review-accordion">
+          <button id="toggle-review-btn" class="btn btn-block btn-outline">
+            <i class="fa-solid fa-magnifying-glass"></i> Review Quiz Answers <i class="fa-solid fa-chevron-down" style="margin-left: 8px;"></i>
+          </button>
+          <div class="review-panel-container" id="review-panel-container">
+            <div class="review-header">
+              <h4>Detailed Review Log</h4>
+              <p>Green cards are correct, red cards are incorrect, and yellow cards are skipped.</p>
+            </div>
+            <div class="review-list" id="review-list-container">
+              <!-- Dynamically injected review cards -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER / KBD SHORTCUTS BAR -->
+    <footer class="app-footer">
+      <div class="shortcut-hints">
+        <span><kbd>1</kbd>-<kbd>4</kbd> Select Answer</span>
+        <span><kbd>Enter</kbd> Next/Submit</span>
+        <span><kbd>Esc</kbd> Quit</span>
+      </div>
+      <div class="copyright">
+        &copy; 2026 BrainSprint. All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <!-- KEYBOARD SHORTCUTS MODAL OVERLAY -->
+  <div class="modal-overlay" id="kbd-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-keyboard text-accent"></i> Keyboard Navigation Controls</h3>
+        <button class="close-modal" id="close-kbd-btn" aria-label="Close Modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>BrainSprint supports full accessibility and fluid speedruns via keybindings. You can play the entire quiz without touching your mouse!</p>
+        <table class="kbd-table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Action Triggered</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd>, <kbd>4</kbd></td>
+              <td>Select Option A, B, C, or D (or index 1-4) respectively</td>
+            </tr>
+            <tr>
+              <td><kbd>A</kbd>, <kbd>B</kbd>, <kbd>C</kbd>, <kbd>D</kbd></td>
+              <td>Select Option A, B, C, or D respectively (alternative mapping)</td>
+            </tr>
+            <tr>
+              <td><kbd>Enter</kbd> or <kbd>Space</kbd></td>
+              <td>Confirm selected answer / Proceed to next question</td>
+            </tr>
+            <tr>
+              <td><kbd>S</kbd> or <kbd>ArrowRight</kbd></td>
+              <td>Skip the current question (when answer has not been locked)</td>
+            </tr>
+            <tr>
+              <td><kbd>ArrowLeft</kbd> or <kbd>ArrowRight</kbd></td>
+              <td>Scroll through review items on the results screen</td>
+            </tr>
+            <tr>
+              <td><kbd>Esc</kbd></td>
+              <td>Quit active quiz run or close this helper modal</td>
+            </tr>
+            <tr>
+              <td><kbd>M</kbd></td>
+              <td>Toggle sound effects mute/unmute</td>
+            </tr>
+            <tr>
+              <td><kbd>T</kbd></td>
+              <td>Toggle Dark / Light color theme</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn primary-btn close-modal-action" id="close-kbd-footer-btn">Got It, Let's Sprint!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Context Activation Prompt (A11y/Chrome compliance) -->
+  <div class="audio-toast" id="audio-toast" style="display: none;">
+    <div class="toast-content">
+      <i class="fa-solid fa-volume-high animate-pulse"></i>
+      <span>Dynamic synthesized audio activated! Enjoy retro soundscapes.</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
